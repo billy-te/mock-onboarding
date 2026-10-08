@@ -24,15 +24,30 @@
     "#tutorial-end{border:0;background:transparent;color:#6d7482;font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:6px 4px}" +
     "#tutorial-done{border:0;background:#1a6e5c;color:#fff;font:inherit;font-size:14px;font-weight:600;border-radius:999px;height:34px;padding:0 16px;cursor:pointer}" +
     "#board-view header{position:relative}" +
-    "#start-tutorial{position:absolute;top:18px;right:22px;height:36px;padding:0 16px;border:0;border-radius:999px;background:#1a6e5c;color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer}";
+    "#dash-actions{position:absolute;top:18px;right:22px;display:flex;align-items:center;gap:8px}" +
+    "#dash-switch{display:inline-flex;align-items:center;height:36px;padding:0 16px;border:1px solid #d5d9e2;border-radius:999px;background:#fff;color:#3c4454;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}" +
+    "#start-tutorial{height:36px;padding:0 16px;border:0;border-radius:999px;background:#1a6e5c;color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}";
   document.head.appendChild(style);
 
+  var dashActions = document.createElement("div");
+  dashActions.id = "dash-actions";
+  var switchLink = document.createElement("a");
+  switchLink.id = "dash-switch";
+  if (mode === "ac") {
+    switchLink.href = "onboarding.html";
+    switchLink.textContent = "Switch to CRM";
+  } else {
+    switchLink.href = "onboarding-ac.html";
+    switchLink.textContent = "Switch to HRM";
+  }
   var startBtn = document.createElement("button");
   startBtn.id = "start-tutorial";
   startBtn.type = "button";
   startBtn.textContent = "Start tutorial";
+  dashActions.appendChild(switchLink);
+  dashActions.appendChild(startBtn);
   var boardHeader = document.querySelector("#board-view header");
-  if (boardHeader) boardHeader.appendChild(startBtn);
+  if (boardHeader) boardHeader.appendChild(dashActions);
 
   hole = document.createElement("div");
   hole.id = "tutorial-hole";
@@ -322,7 +337,7 @@
 
   document.addEventListener("click", function (event) {
     if (!running) return;
-    if (event.target.closest("#tutorial-note") || event.target.closest("#start-tutorial")) return;
+    if (event.target.closest("#tutorial-note") || event.target.closest("#dash-actions")) return;
     var step = steps[index];
     if (step.advance === "finish") {
       event.preventDefault();
