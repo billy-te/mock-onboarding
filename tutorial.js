@@ -22,8 +22,17 @@
     "#tutorial-note .tutorial-text{margin:0;font-size:14px;line-height:1.45}" +
     "#tutorial-note .tutorial-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}" +
     "#tutorial-end{border:0;background:transparent;color:#6d7482;font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:6px 4px}" +
-    "#tutorial-done{border:0;background:#1a6e5c;color:#fff;font:inherit;font-size:14px;font-weight:600;border-radius:999px;height:34px;padding:0 16px;cursor:pointer}";
+    "#tutorial-done{border:0;background:#1a6e5c;color:#fff;font:inherit;font-size:14px;font-weight:600;border-radius:999px;height:34px;padding:0 16px;cursor:pointer}" +
+    "#board-view header{position:relative}" +
+    "#start-tutorial{position:absolute;top:18px;right:22px;height:36px;padding:0 16px;border:0;border-radius:999px;background:#1a6e5c;color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer}";
   document.head.appendChild(style);
+
+  var startBtn = document.createElement("button");
+  startBtn.id = "start-tutorial";
+  startBtn.type = "button";
+  startBtn.textContent = "Start tutorial";
+  var boardHeader = document.querySelector("#board-view header");
+  if (boardHeader) boardHeader.appendChild(startBtn);
 
   hole = document.createElement("div");
   hole.id = "tutorial-hole";
@@ -313,7 +322,7 @@
 
   document.addEventListener("click", function (event) {
     if (!running) return;
-    if (event.target.closest("#tutorial-note")) return;
+    if (event.target.closest("#tutorial-note") || event.target.closest("#start-tutorial")) return;
     var step = steps[index];
     if (step.advance === "finish") {
       event.preventDefault();
@@ -341,6 +350,7 @@
 
   endBtn.addEventListener("click", end);
   doneBtn.addEventListener("click", end);
+  startBtn.addEventListener("click", start);
 
   window.addEventListener("resize", function () {
     if (running) place(steps[index], steps[index].target());
