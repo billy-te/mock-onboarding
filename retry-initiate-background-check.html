@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Retry - Initiate Background Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c1e2a;
+      --muted: #8b919e;
+      --line: #eceef2;
+      --header: #8d93a0;
+      --pending-bg: #fff1dc;
+      --pending-fg: #c9842a;
+      --cancel-bg: #fde8ea;
+      --cancel-fg: #e15a6a;
+      --avatar-bg: #ece8fb;
+      --avatar-fg: #6a5acd;
+      --row: #f5f6fb;
+      --link: #4b5160;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #fff;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      padding: 18px 28px 40px;
+    }
+
+    .crumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: #9aa0ab;
+    }
+
+    .crumb a {
+      color: #8b919e;
+      text-decoration: none;
+    }
+
+    .crumb svg { color: #c5c9d1; }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #2a2e3a;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 280px;
+      height: 38px;
+      margin-bottom: 18px;
+      padding: 0 12px;
+      border: 1px solid #e6e8ee;
+      border-radius: 8px;
+      color: #a0a6b2;
+    }
+
+    .search input {
+      width: 100%;
+      border: 0;
+      outline: none;
+      background: transparent;
+      font: inherit;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .search input::placeholder { color: #b0b6c0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th:nth-child(1) { width: 28%; }
+    th:nth-child(2) { width: 26%; }
+    th:nth-child(3) { width: 16%; }
+    th:nth-child(4) { width: 14%; }
+    th:nth-child(5) { width: 16%; }
+
+    th {
+      padding: 10px 12px 12px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--header);
+      text-align: left;
+    }
+
+    th:first-child, td:first-child { padding-left: 4px; }
+
+    td {
+      padding: 12px 12px 12px 0;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    tr.hot td { background: var(--row); }
+    tbody tr:hover td { background: #f7f8fb; }
+    tr.hot:hover td { background: var(--row); }
+
+    .who {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--avatar-bg);
+      color: var(--avatar-fg);
+      display: grid;
+      place-items: center;
+      flex: none;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .name {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #2c3140;
+    }
+
+    .sub {
+      margin: 1px 0 0;
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .job .name {
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .date {
+      font-size: 14px;
+      color: #3a4050;
+      white-space: nowrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .pill.pending { background: var(--pending-bg); color: var(--pending-fg); }
+    .pill.cancelled { background: var(--cancel-bg); color: var(--cancel-fg); }
+
+    .action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--link);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    td.act { text-align: right; padding-right: 8px; }
+
+    .empty { display: none; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <p class="crumb">
+      <a href="onboarding.html">Onboarding</a>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M4.5 2.5 8 6 4.5 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Retry - Initiate Background Check
+    </p>
+    <h1>Retry - Initiate Background Check</h1>
+
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="7" cy="7" r="4.25" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M10.4 10.4 13.2 13.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      <input id="q" type="search" placeholder="Search candidate" aria-label="Search candidate" />
+    </label>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Candidate Name</th>
+          <th>Job Offered</th>
+          <th>Start Date</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="rows">
+        <tr>
+          <td>
+            <div class="who">
+              <span class="avatar">TI</span>
+              <div>
+                <p class="name">Test Inine</p>
+                <p class="sub">polyu@yopmail.com</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="job">
+              <p class="name">Bakery Clerk</p>
+              <p class="sub">Gardena, California</p>
+            </div>
+          </td>
+          <td class="date">October 8, 2026</td>
+          <td><span class="pill pending">Pending</span></td>
+          <td class="act"><a class="action" href="#">Take an action <span aria-hidden="true">›</span></a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="who">
+              <span class="avatar">LP</span>
+              <div>
+                <p class="name">Louis Powers</p>
+                <p class="sub">louisp@mailinator.com</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="job">
+              <p class="name">Senior Director IT Infrastructure &amp; Operations</p>
+              <p class="sub">Phoenix, Arizona</p>
+            </div>
+          </td>
+          <td class="date">October 12, 2026</td>
+          <td><span class="pill pending">Pending</span></td>
+          <td class="act"><a class="action" href="#">Take an action <span aria-hidden="true">›</span></a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="who">
+              <span class="avatar">WW</span>
+              <div>
+                <p class="name">Winter West</p>
+                <p class="sub">winter.west@gmailinator.com</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="job">
+              <p class="name">Senior Director IT Infrastructure &amp; Operations</p>
+              <p class="sub">Phoenix, Arizona</p>
+            </div>
+          </td>
+          <td class="date">October 19, 2026</td>
+          <td><span class="pill pending">Pending</span></td>
+          <td class="act"><a class="action" href="#">Take an action <span aria-hidden="true">›</span></a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="who">
+              <span class="avatar">EN</span>
+              <div>
+                <p class="name">Ed Newman</p>
+                <p class="sub">newmaned@gmail.com</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="job">
+              <p class="name">Senior Director IT Infrastructure &amp; Operations</p>
+              <p class="sub">Phoenix, Arizona</p>
+            </div>
+          </td>
+          <td class="date">October 12, 2026</td>
+          <td><span class="pill pending">Pending</span></td>
+          <td class="act"><a class="action" href="#">Take an action <span aria-hidden="true">›</span></a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="who">
+              <span class="avatar">JT</span>
+              <div>
+                <p class="name">James Test</p>
+                <p class="sub">testss@yopmail.com</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="job">
+              <p class="name">Assistant Produce Manager</p>
+              <p class="sub">Gardena, California</p>
+            </div>
+          </td>
+          <td class="date">October 21, 2026</td>
+          <td><span class="pill pending">Pending</span></td>
+          <td class="act"><a class="action" href="#">Take an action <span aria-hidden="true">›</span></a></td>
+        </tr>
+        <tr class="hot">
+          <td>
+            <div class="who">
+              <span class="avatar">PP</span>
+              <div>
+                <p class="name">Pete Powers</p>
+                <p class="sub">petepowers@yopmail.com</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="job">
+              <p class="name">Courtesy Clerk TEST</p>
+              <p class="sub">Kansas City, Missouri</p>
+            </div>
+          </td>
+          <td class="date">October 26, 2026</td>
+          <td><span class="pill pending">Pending</span></td>
+          <td class="act"><a class="action" href="#">Take an action <span aria-hidden="true">›</span></a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="who">
+              <span class="avatar">EN</span>
+              <div>
+                <p class="name">Ed Newman</p>
+                <p class="sub">newmaned@gmail.com</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="job">
+              <p class="name">Bakery Clerk</p>
+              <p class="sub">Simpsonville, South Carolina</p>
+            </div>
+          </td>
+          <td class="date">November 2, 2026</td>
+          <td><span class="pill pending">Pending</span></td>
+          <td class="act"><a class="action" href="#">Take an action <span aria-hidden="true">›</span></a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="who">
+              <span class="avatar">TI</span>
+              <div>
+                <p class="name">Test Ininetwo</p>
+                <p class="sub">test92@yopmail.com</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="job">
+              <p class="name">Meat/Seafood Clerk NSO ARH Test</p>
+              <p class="sub">Phoenix, Arizona</p>
+            </div>
+          </td>
+          <td class="date">October 8, 2026</td>
+          <td><span class="pill cancelled">Cancelled</span></td>
+          <td class="act"><a class="action" href="#">View <span aria-hidden="true">›</span></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    document.getElementById("q").addEventListener("input", function (e) {
+      var q = e.target.value.trim().toLowerCase();
+      document.querySelectorAll("#rows tr").forEach(function (row) {
+        row.style.display = row.innerText.toLowerCase().indexOf(q) === -1 ? "none" : "";
+      });
+    });
+  </script>
+</body>
+</html>
