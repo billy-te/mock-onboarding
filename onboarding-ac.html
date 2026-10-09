@@ -17,12 +17,12 @@
       --muted: #8e96a8;
       --desc: #8b93a6;
       --line: #e6eaf2;
-      --board: #f4f7fb;
-      --card-line: #e7ebf3;
-      --count-bg: #e6ebf2;
-      --count-fg: #9aa3b5;
-      --pending-bg: #ebe7fe;
-      --pending-fg: #6d5ef0;
+      --board: #f3f4f8;
+      --card-line: #e7e9ef;
+      --count-bg: #e7e9ee;
+      --count-fg: #9aa1ae;
+      --pending-bg: #efeafd;
+      --pending-fg: #6d5ce7;
       --done-bg: #d8f5e6;
       --done-fg: #14915f;
       --icon-bg: #e5f6f2;
@@ -42,53 +42,70 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    header {
-      background: #fff;
-      padding: 18px 22px 0;
+    #board-view header {
+      background: transparent;
+      padding: 22px 28px 0;
     }
 
-    h1 {
+    #board-view h1 {
       margin: 0;
-      font-size: 28px;
-      line-height: 1.15;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      color: var(--title);
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #2a3142;
     }
 
-    nav {
+    #board-view nav {
       display: flex;
-      gap: 28px;
-      margin-top: 14px;
-      border-bottom: 1px solid var(--line);
+      gap: 26px;
+      margin-top: 16px;
+      border-bottom: 1px solid #e6e8ee;
     }
 
-    nav button {
+    #board-view nav button {
       appearance: none;
       background: none;
       border: 0;
-      margin: 0;
+      margin: 0 0 -1px;
       padding: 0 0 12px;
       font: inherit;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
-      color: var(--nav);
+      color: #8b919e;
       cursor: pointer;
       border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
     }
 
-    nav button.active {
-      color: var(--blue);
+    #board-view nav button.active {
+      color: #4f46c8;
       font-weight: 600;
-      border-bottom-color: var(--blue);
+      border-bottom-color: #4f46c8;
     }
 
-    .toolbar {
+    #board-view .toolbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 28px 4px;
+    }
+
+    #board-view .actions-title {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #1f2433;
+      text-transform: none;
+    }
+
+    #board-view .toolbar-side {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 14px 22px 2px;
+      flex: none;
     }
 
     .segment {
@@ -175,8 +192,8 @@
     .board {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 12px;
-      padding: 14px 16px 32px;
+      gap: 16px;
+      padding: 18px 24px 40px;
       align-items: start;
     }
 
@@ -184,11 +201,11 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 0 4px 10px;
-      font-size: 11.5px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: #454c64;
+      margin: 0 2px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #8b93a3;
       text-transform: uppercase;
     }
 
@@ -220,9 +237,9 @@
       cursor: pointer;
       background: #fff;
       border: 1px solid var(--card-line);
-      border-radius: 12px;
-      padding: 14px 13px 16px;
-      box-shadow: 0 1px 1px rgba(22, 28, 45, 0.02);
+      border-radius: 16px;
+      padding: 16px 16px 22px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
     }
 
     a.card:hover {
@@ -235,23 +252,22 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 18px;
     }
 
     .icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: var(--icon-bg);
-      color: var(--icon);
+      width: 22px;
+      height: 22px;
+      background: transparent;
+      color: #14a38a;
       display: grid;
       place-items: center;
       flex: none;
     }
 
     .icon svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       display: block;
     }
 
@@ -279,54 +295,59 @@
 
     .card h2 {
       margin: 0;
-      font-size: 14.5px;
-      line-height: 1.3;
+      font-size: 15px;
+      line-height: 1.35;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: #1c2038;
     }
 
     .card p {
-      margin: 3px 0 0;
-      font-size: 12px;
+      margin: 4px 0 0;
+      font-size: 13px;
       line-height: 1.35;
       font-weight: 400;
-      color: var(--desc);
+      color: #9aa1af;
     }
 
-    body.list-open { background: #fff; }
+    body.list-open { background: #f4f5f8; }
     #board-view[hidden],
     #list-view[hidden],
     #form-view[hidden],
     #start-view[hidden] { display: none !important; }
 
-    #list-view { padding: 18px 28px 40px; background: #fff; }
+    #list-view { padding: 22px 28px 48px; background: #f4f5f8; min-height: 100vh; }
     #list-view .crumb {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 0 0 8px;
+      margin: 0 0 10px;
       font-size: 13px;
-      color: #9aa0ab;
+      color: #9aa1ad;
     }
-    #list-view .crumb a { color: #8b919e; text-decoration: none; }
+    #list-view .crumb a { color: #4f46c8; font-weight: 600; text-decoration: none; }
     #list-view h1 {
+      margin: 0 0 16px;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #1f2433;
+    }
+    #list-view .rule {
+      border: 0;
+      border-top: 1px solid #e6e8ee;
       margin: 0 0 18px;
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: #2a2e3a;
     }
     #list-view .search {
       display: flex;
       align-items: center;
       gap: 8px;
       width: 280px;
-      height: 38px;
-      margin: 0 0 18px;
-      padding: 0 12px;
-      border: 1px solid #e6e8ee;
-      border-radius: 8px;
+      height: 40px;
+      margin: 0 0 16px;
+      padding: 0 14px;
+      border: 1px solid #e4e7ee;
+      border-radius: 10px;
       background: #fff;
       color: #a0a6b2;
     }
@@ -340,81 +361,85 @@
       color: var(--ink);
     }
     #list-view .search input::placeholder { color: #b0b6c0; }
-    #list-view table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-    #list-view th:nth-child(1) { width: 28%; }
-    #list-view th:nth-child(2) { width: 26%; }
-    #list-view th:nth-child(3) { width: 16%; }
-    #list-view th:nth-child(4) { width: 14%; }
-    #list-view th:nth-child(5) { width: 16%; }
-    #list-view th {
-      padding: 10px 12px 12px 0;
-      border-bottom: 1px solid #eceef2;
-      font-size: 13px;
-      font-weight: 500;
-      color: #8d93a0;
-      text-align: left;
-      letter-spacing: 0;
-      text-transform: none;
+    #list-view .candidates { display: flex; flex-direction: column; gap: 12px; }
+    #list-view .candidate {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: #fff;
+      border: 1px solid #e4e7ee;
+      border-radius: 12px;
     }
-    #list-view td {
-      padding: 12px 12px 12px 0;
-      border-bottom: 1px solid #eceef2;
-      vertical-align: middle;
-    }
-    #list-view tr.hot td { background: #f5f6fb; }
-    #list-view tbody tr:hover td { background: #f7f8fb; }
-    #list-view .who { display: flex; align-items: center; gap: 12px; }
+    #list-view .candidate.hot { border-color: #d9d6f5; background: #fbfbfe; }
     #list-view .avatar {
-      width: 34px;
-      height: 34px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      background: #ece8fb;
-      color: #6a5acd;
+      border: 1.5px solid #6d5ce7;
+      background: #fff;
+      color: #5b4cdb;
       display: grid;
       place-items: center;
       flex: none;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 600;
     }
+    #list-view .who { min-width: 0; }
     #list-view .name {
       margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #1f2433;
+    }
+    #list-view .meta {
+      margin: 3px 0 0;
+      font-size: 13px;
+      line-height: 1.35;
+      color: #8b919e;
+    }
+    #list-view .sep { margin: 0 6px; color: #c5cad3; }
+    #list-view .side {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: none;
+    }
+    #list-view .task-label {
       font-size: 14px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: #2c3140;
-    }
-    #list-view .sub { margin: 1px 0 0; font-size: 12px; line-height: 1.35; color: #8b919e; }
-    #list-view .job .name {
-      font-weight: 500;
+      color: #3c4454;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
-    #list-view .date { font-size: 14px; color: #3a4050; white-space: nowrap; }
     #list-view .pill {
       display: inline-flex;
       align-items: center;
-      height: 24px;
+      height: 26px;
       padding: 0 10px;
       border-radius: 6px;
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 600;
       letter-spacing: 0;
       text-transform: none;
     }
-    #list-view .pill.pending { background: #fff1dc; color: #c9842a; }
+    #list-view .pill.pending { background: #fff1dc; color: #e09a3e; }
     #list-view .pill.cancelled { background: #fde8ea; color: #e15a6a; }
     #list-view .action {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      color: #4b5160;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       text-decoration: none;
       white-space: nowrap;
     }
-    #list-view td.act { text-align: right; padding-right: 8px; }
+    #list-view .action.take { color: #12806a; }
+    #list-view .action.view { color: #8b919e; font-weight: 500; }
+    @media (max-width: 800px) {
+      #list-view .candidate { flex-wrap: wrap; }
+      #list-view .side { width: 100%; margin-left: 56px; flex-wrap: wrap; }
+    }
 
     #form-view { background: #f5f6f8; min-height: 100vh; }
     #form-view .top {
@@ -713,9 +738,9 @@
     }
 
     @media (max-width: 640px) {
-      header, .toolbar { padding-left: 16px; padding-right: 16px; }
-      .toolbar { flex-wrap: wrap; }
-      .search { width: 100%; }
+      #board-view header, #board-view .toolbar { padding-left: 16px; padding-right: 16px; }
+      #board-view .toolbar { flex-wrap: wrap; }
+      #board-view .search { width: 100%; }
       .board { grid-template-columns: 1fr; padding-left: 12px; padding-right: 12px; }
     }
   </style>
@@ -727,31 +752,33 @@
     <nav aria-label="Onboarding">
       <button type="button">New Hire</button>
       <button type="button" class="active">Actions</button>
-      <button type="button">Forms</button>
-      <button type="button">Journeys</button>
-      <button type="button">Reports</button>
     </nav>
   </header>
 
   <div class="toolbar">
-    <div class="segment" role="tablist" aria-label="Status">
-      <button type="button" class="on">All</button>
-      <button type="button">Open</button>
-      <button type="button">Completed</button>
+    <div class="toolbar-main">
+      <h2 class="actions-title">Actions</h2>
+      <div class="segment" role="tablist" aria-label="Status">
+        <button type="button" class="on">All</button>
+        <button type="button">Open</button>
+        <button type="button">Completed</button>
+      </div>
     </div>
-    <button type="button" class="dropdown">
-      Candidate
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-        <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <label class="search">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <circle cx="7" cy="7" r="4.25" stroke="currentColor" stroke-width="1.4"/>
-        <path d="M10.4 10.4 13.2 13.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      </svg>
-      <input type="search" placeholder="Search by candidate na.." aria-label="Search by candidate name" />
-    </label>
+    <div class="toolbar-side">
+      <button type="button" class="dropdown">
+        Candidate
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.25" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M10.4 10.4 13.2 13.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input type="search" placeholder="Search by candidate na.." aria-label="Search by candidate name" />
+      </label>
+    </div>
   </div>
 
   <main class="board">
@@ -876,6 +903,7 @@
       <span id="crumb-current">Initiate I9 Process</span>
     </p>
     <h1 id="list-title">Initiate I9 Process</h1>
+    <hr class="rule" />
     <label class="search">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
         <circle cx="7" cy="7" r="4.25" stroke="currentColor" stroke-width="1.4"/>
@@ -883,18 +911,7 @@
       </svg>
       <input id="list-search" type="search" placeholder="Search candidate" aria-label="Search candidate" />
     </label>
-    <table>
-      <thead>
-        <tr>
-          <th>Candidate Name</th>
-          <th>Job Offered</th>
-          <th>Start Date</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="rows"></tbody>
-    </table>
+    <div id="rows" class="candidates"></div>
   </div>
 
   <div id="form-view" hidden>
@@ -1013,16 +1030,15 @@
     var rows = document.getElementById("rows");
     candidates.forEach(function (c, index) {
       var pending = c[6] === "Pending";
-      var tr = document.createElement("tr");
-      if (index === 5) tr.className = "hot";
-      tr.innerHTML =
-        '<td><div class="who"><span class="avatar">' + c[0] + '</span><div><p class="name">' + c[1] + '</p><p class="sub">' + c[2] + '</p></div></div></td>' +
-        '<td><div class="job"><p class="name">' + c[3] + '</p><p class="sub">' + c[4] + '</p></div></td>' +
-        '<td class="date">' + c[5] + '</td>' +
-        '<td><span class="pill ' + (pending ? "pending" : "cancelled") + '">' + c[6] + '</span></td>' +
-        '<td class="act"><a class="action" href="#">' + (pending ? "Take an action" : "View") + ' <span aria-hidden="true">›</span></a></td>';
-      rows.appendChild(tr);
-      var action = tr.querySelector("a.action");
+      var card = document.createElement("article");
+      card.className = "candidate" + (index === 5 ? " hot" : "");
+      card.innerHTML =
+        '<span class="avatar">' + c[0] + '</span>' +
+        '<div class="who"><p class="name">' + c[1] + '</p><p class="meta">' + c[3] + ' <span class="sep">|</span> Starting on ' + c[5] + '</p></div>' +
+        '<div class="side"><span class="task-label"></span><span class="pill ' + (pending ? "pending" : "cancelled") + '">' + c[6] + '</span>' +
+        '<a class="action ' + (pending ? "take" : "view") + '" href="#">' + (pending ? "Take an action" : "View") + ' <span aria-hidden="true">›</span></a></div>';
+      rows.appendChild(card);
+      var action = card.querySelector("a.action");
       action.dataset.initials = c[0];
       action.dataset.name = c[1];
       action.dataset.email = c[2];
@@ -1068,7 +1084,7 @@
         document.getElementById("drawer-reject").textContent = "Reject";
       }
       Array.prototype.forEach.call(rows.children, function (row) { row.classList.remove("hot"); });
-      link.closest("tr").classList.add("hot");
+      link.closest(".candidate").classList.add("hot");
       document.getElementById("drawer").setAttribute("aria-hidden", "false");
       document.body.classList.add("drawer-open");
     }
@@ -1084,6 +1100,9 @@
       closeDrawer();
       document.getElementById("list-title").textContent = title;
       document.getElementById("crumb-current").textContent = title;
+      Array.prototype.forEach.call(rows.querySelectorAll(".task-label"), function (label) {
+        label.textContent = title;
+      });
       document.getElementById("list-search").value = "";
       Array.prototype.forEach.call(rows.children, function (row) { row.style.display = ""; });
       hideAll();
